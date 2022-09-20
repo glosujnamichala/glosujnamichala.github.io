@@ -683,9 +683,9 @@ a {
   transition: color 0.6s;
 }
 .cid-thTXo5cL5A {
-  padding-top: 45px;
+  padding-top: 30px;
   padding-bottom: 0px;
-  background-image: url("../../../assets/images/stars-1436950-641-640x359.jpg");
+  background-image: url("../../../assets/images/tapeta-galezie-na-tle-nieba-2000x1125.jpeg");
 }
 .cid-thTXo5cL5A .icons-media-container {
   display: flex;
@@ -738,6 +738,7 @@ a {
 .cid-thTXo5cL5A .card-wrapper .card-title,
 .cid-thTXo5cL5A .card-box {
   color: #232323;
+  text-align: left;
 }
 .cid-thTXEqIEAS .navbar-dropdown {
   position: relative !important;
@@ -1082,7 +1083,7 @@ a {
 .cid-thTXHBoDeJ {
   padding-top: 6rem;
   padding-bottom: 6rem;
-  background-color: #ffffff;
+  background-color: #fafafa;
 }
 .cid-thTXHBoDeJ .mbr-overlay {
   background-color: #ffffff;
@@ -1103,6 +1104,7 @@ a {
 .cid-thU2g6px5d {
   padding-top: 6rem;
   padding-bottom: 5rem;
+  background-image: url("../../../assets/images/background3.jpg");
 }
 .cid-thU2g6px5d .mbr-fallback-image.disabled {
   display: none;
@@ -1115,7 +1117,6 @@ a {
   height: 100%;
   position: absolute;
   top: 0;
-  background-image: url("../../../assets/images/background13.jpg");
 }
 .cid-thU2g6px5d .number-wrap {
   color: #555555;
@@ -1194,6 +1195,41 @@ a {
 .cid-thU6bkKZ69 form.mbr-form .mbr-section-btn .btn {
   width: 100%;
   height: 100%;
+}
+.cid-thYEoqtHyG {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  background-color: #ffffff;
+}
+.cid-thYEoqtHyG .mbr-fallback-image.disabled {
+  display: none;
+}
+.cid-thYEoqtHyG .mbr-fallback-image {
+  display: block;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.cid-thYEoqtHyG ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 2.5rem;
+}
+.cid-thYEoqtHyG li {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.cid-thYEoqtHyG ul li::before {
+  position: absolute;
+  left: -1.6rem;
+  content: "\2022";
+  color: #6592e6;
+  font-weight: bold;
+  font-size: 2rem;
+  width: 1.6rem;
 }
 .cid-thTYgr0h6g {
   padding-top: 30px;
