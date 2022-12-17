@@ -1,0 +1,194 @@
+$(window).on('load', function () {
+
+    setTimeout(function(){
+        $('#loader').css("display", "none");
+    }, 250);
+
+    $(document).foundation();
+
+    AOS.init({
+        duration: 600,
+        once: true,
+    });
+
+    $('.counter').counterUp({
+        delay: 10,
+        time: 2500
+    });
+
+    $('[data-title]').on("click", function () {
+        $(".plan-box").removeClass("selected");
+        $(".plan-info span").text($(this).data("title"));
+        $(".plan-info p").text($(this).data("desc"));
+        $(this).addClass("selected");
+    });
+
+    $(".plan-right").on("click", function () {
+        $(".plan-container").animate({ scrollLeft: $(".plan-container")[0].scrollLeft + 240 }, 200);
+    })
+    $(".plan-left").on("click", function () {
+        $(".plan-container").animate({ scrollLeft: $(".plan-container")[0].scrollLeft - 240 }, 200);
+    })
+
+});
+
+var loadmore = [];
+$("button").click(function(e) {
+    let button = e.target;
+    let data = $(button).attr("data-loadmore-btn");
+
+    if ($(button)[0].hasAttribute("data-url")) {
+        $(".btn-blue.payment").removeClass("btn-blue");
+        $(this).addClass("btn-blue");
+
+        var cost = $(this).attr("data-cost");
+        $(".item-cost")[0].innerHTML = parseFloat(cost).toFixed(2).replace(".", ",");
+
+        $(".form-type")[0].innerText = $(this)[0].innerHTML;
+        $(".form-url").attr("action", $(this).attr("data-url"));
+
+        var amount = $("[type='range']")[0].value;
+        $('.range-cost')[0].innerHTML = (cost*amount).toFixed(2) + "zł";
+        $('.range-amount')[0].innerHTML = amount;
+        return;
+    }
+
+    if ($(button).hasClass("loadmore")) {
+        console.log(loadmore[data]);
+
+        if (loadmore[data] == null) loadmore[data] = 0;
+        loadmore[data] = loadmore[data] + 1;
+
+        var text = "";
+        $.get("/api/top?type=" + data + "&index="+loadmore[data], function(data) {
+            text = data
+        });
+
+        setTimeout(function(){
+            console.log(text.split("|").length);
+            if (text.split("|").length !== 5) {
+                $(button).hide();
+            }
+            for (let x of text.split("|")) {
+                let d = x.split(";");
+                let ddd = String(d[1]).toLowerCase();
+                let builder = "" +
+                    "<div class=\"ranking-line\">\n" +
+                    "<a href=\"/gracz/"+d[2]+"\">\n" +
+                    "    <p class=\"float-left ranking-place\">" + d[0] + "</p>\n" +
+                    "    <img class=\"float-left ranking-skin\" src=\"https://minotar.net/helm/" + d[2] + "/64\" alt=\"NICK\">\n" +
+                    "    <div class=\"float-left ranking-info\">\n" +
+                    "        <p class=\"" + ddd + " text-small\">" + d[1] + "</p>\n" +
+                    "        <p class=\"text-medium\"><b>" + d[2] + "</b></p>\n" +
+                    "    </div>\n"
+                ;
+                if (d[3] !== "-") {
+                    builder = builder + "</a> <a href=\"/gildia/" + d[3] + "\">   <span class=\"badge light float-left\">" + d[3] + "</span> </a><a href=\"/gracz/"+d[2]+"\">\n";
+                }
+                builder = builder +
+                    "    <p class=\"text-blue float-right\">" + d[4] + "</p>\n" +
+                    "    <div class=\"clearfix\"></div>\n" +
+                    "</a></div>"
+                ;
+
+                $("[data-loadmore='" + data + "']").append(builder);
+            }
+        }, 950);
+
+        $(button).attr('disabled', true);
+        var time = 50;
+        var btn = $(button)[0].innerHTML;
+        var interval = window.setInterval(function(){
+
+            time--;
+
+            $(button)[0].innerHTML = "<sup class=\"text-light\">(" + time/10 + "sek)</sup> " + btn;
+
+            if (time <= 0) {
+                $(button).attr('disabled', false);
+                $(button)[0].innerHTML = btn;
+                clearInterval(interval);
+            }
+
+        }, 100);
+        return;
+    }
+
+    if ($(button).hasClass("loadmore-guild")) {
+        console.log(loadmore[data]);
+
+        if (loadmore[data] == null) loadmore[data] = 0;
+        loadmore[data] = loadmore[data] + 1;
+
+        var text = "";
+        $.get("/api/top?type=" + data + "&index="+loadmore[data], function(data) {
+            text = data
+        });
+
+        setTimeout(function(){
+            console.log(text.split("|").length);
+            if (text.split("|").length !== 5) {
+                $(button).hide();
+            }
+            for (let x of text.split("|")) {
+                let d = x.split(";");
+                let warID = d[0];
+                let tag1 = d[1];
+                let uuid1 = d[2];
+                let name1 = d[3];
+                let tag2 = d[4];
+                let uuid2 = d[5];
+                let name2 = d[6];
+                let builder = "" +
+                    "<a href=\"/wojna/"+warID+"\" class=\"cell large-12 bg-light mt2 p3 overflow-hidden grid-x war-profile war-profile-small\" data-aos=\"fade-up\" data-aos-delay=\"200\">\n" +
+                    "<p class="+tag1+">VS</p>\n" +
+                    "<div class=\"cell medium-6 war-guild left\">" +
+                    "<img src=\"https://visage.surgeplay.com/bust/128/"+uuid1+"\" alt=\"NICK\">" +
+                    "<div class=\"war-guild-text\">" +
+                    "<p>"+tag1+"</p>" +
+                    "<span>"+name1+"</span>" +
+                    "</div></div>" +
+                    "<div class=\"cell medium-6 war-guild right\">" +
+                    "<img src=\"https://visage.surgeplay.com/bust/128/"+uuid2+"\" alt=\"NICK\">" +
+                    "<div class=\"war-guild-text\">" +
+                    "<p>"+tag2+"</p>"+
+                    "<span>"+name2+"</span>"+
+                    "</div></div></a>";
+                builder = builder +
+                    "    <p class=\"text-blue float-right\">" + d[4] + "</p>\n" +
+                    "    <div class=\"clearfix\"></div>\n" +
+                    "</a></div>"
+                ;
+
+                $("[data-loadmore='" + data + "']").append(builder);
+            }
+        }, 950);
+
+        $(button).attr('disabled', true);
+        var time = 50;
+        var btn = $(button)[0].innerHTML;
+        var interval = window.setInterval(function(){
+
+            time--;
+
+            $(button)[0].innerHTML = "<sup class=\"text-light\">(" + time/10 + "sek)</sup> " + btn;
+
+            if (time <= 0) {
+                $(button).attr('disabled', false);
+                $(button)[0].innerHTML = btn;
+                clearInterval(interval);
+            }
+
+        }, 100);
+        return;
+    }
+});
+
+$('input[type="range"]').on('input', function () {
+    var cost = $('.item-cost').attr('data-cost');
+    var amount = $(this)[0].value;
+    $('.range-cost')[0].innerHTML = (cost*amount).toFixed(2) + "PLN";
+    $('.range-amount')[0].innerHTML = amount;
+});
+
+
